@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import { Card } from 'antd';
 import './App.css';
 
 const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
@@ -13,19 +12,22 @@ class MovieReturned extends React.Component {
     super(props);
     this.state = {
       movies: [],
-      title: 'red',
+      title: '',
       desc: '',
-      year: ''
+      year: '',
+      poster: '',
+      input: ''
     }
-  }
-
-  componentDidMount() {
-    this.fetchSubmit();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.fetchSubmit = this.fetchSubmit.bind(this);
   }
 
   fetchSubmit = () => {
 
-    let url = `${apiurl}&t=${this.state.title}`
+    let url = `${apiurl}&t=${this.state.input}`
+    console.log(this.state.input);
+    console.log(url);
 
     fetch(url, { method: 'GET', cache: 'reload' })
       .then(res => {
@@ -36,34 +38,50 @@ class MovieReturned extends React.Component {
           movies: data,
           title: data.Title,
           year: data.Year,
-          desc: data.Plot
+          desc: data.Plot,
+          poster: data.Poster
         });
       })
       .catch(err => {
-        console.log(err);
       });
+  }
+
+  handleSubmit(e) {
+
+    e.preventDefault();
+    if (this.state.title !== this.state.input)
+      this.fetchSubmit();
+  }
+
+  handleChange(e) {
+    this.setState({
+      input: e.target.value
+    })
   }
 
   render() {
 
-    const { title, desc, year } = this.state
+    const { title, desc, year, poster } = this.state
 
     return (
       <div className="wellDiv">
-        <form className="well" onSubmit={this.fetchSubmit}>
+        <form className="well" onSubmit={this.handleSubmit}>
           <fieldset>
             <legend>Search By Title</legend>
-            <label for="title"> Title: </label>
-            <input type="text" id="title" name="title" />
-            <input type="submit" />
+            <label htmlFor="title"> Title: </label>
+            <input type="text" id="title" name="title" onChange={this.handleChange} />
+            {console.log(this.state.input)}
+            <input type="submit" value="Submit" />
             <input type="reset" />
           </fieldset>
         </form>
+        <img src={poster} />
         <ul>
           <li>{title}</li>
           <li>{desc}</li>
           <li>{year}</li>
         </ul>
+
       </div>
     );
   }
@@ -73,10 +91,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <h1> Find Movie By Title</h1>
         <MovieReturned />
       </div>
     );
@@ -84,5 +99,3 @@ class App extends Component {
 }
 
 export default App;
-
-//<Card title="Card title">Card content</Card>
