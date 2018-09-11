@@ -4,7 +4,7 @@ import { Spin, Icon, Card, Button, Form, Input } from 'antd';
 
 const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
 const apiurl = `http://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
-
+const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class MovieReturned extends React.Component {
 
@@ -19,9 +19,6 @@ class MovieReturned extends React.Component {
             input: '',
             isLoading: false
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.fetchSubmit = this.fetchSubmit.bind(this);
     }
 
     fetchSubmit = () => {
@@ -48,14 +45,14 @@ class MovieReturned extends React.Component {
             });
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
 
         e.preventDefault();
         if (this.state.title !== this.state.input)
             this.fetchSubmit();
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({
             input: e.target.value
         })
@@ -64,8 +61,6 @@ class MovieReturned extends React.Component {
     render() {
 
         const { title, desc, year, poster, isLoading } = this.state
-
-        const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
         return (
             <div>
