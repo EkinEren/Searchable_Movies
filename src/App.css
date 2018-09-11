@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  background-color : lightgray;
+  font-family: sans-serif;
 }
 
 .App-logo {
@@ -11,9 +11,12 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #4169E1;
+  height: 50px;
   padding: 20px;
+  font-family: sans-serif;
+  font-size: large;
+  padding-top: 10px;
   color: white;
 }
 

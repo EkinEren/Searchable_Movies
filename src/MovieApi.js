@@ -79,7 +79,8 @@ class MovieReturned extends React.Component {
                     </fieldset>
                 </form>
                 {isLoading ?
-                    <div> <Spin indicator={antLoadingIcon} />
+                    <div>
+                        <Spin indicator={antLoadingIcon} />
                         <h2>Loading...</h2>
                     </div> :
                     <div>
