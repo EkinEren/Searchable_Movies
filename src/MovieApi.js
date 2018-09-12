@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import { Spin, Icon, Card, Button, Form, Input } from 'antd';
+import CardItem from './CardItem.js';
+import { Spin, Icon, Button, Form, Input } from 'antd';
 
 const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
 const apiurl = `http://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
@@ -11,19 +12,14 @@ class MovieReturned extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            movies: [],
-            title: '',
-            desc: '',
-            year: '',
-            poster: '',
-            input: '',
+            movieList: [],
             isLoading: false
         }
     }
 
     fetchSubmit = () => {
 
-        let url = `${apiurl}&t=${this.state.input}`
+        let url = `${apiurl}&s=${this.state.input}`
 
         this.setState({ isLoading: true });
 
@@ -32,15 +28,21 @@ class MovieReturned extends React.Component {
                 return res.json();
             })
             .then(data => {
+                const movieList = data.Search.map((movie, i, arr) => {
+
+                    return {
+                        title: movie.Title,
+                        year: movie.Year,
+                        poster: movie.Poster
+                    };
+                })
                 this.setState({
-                    movies: data,
-                    title: data.Title,
-                    year: data.Year,
-                    desc: data.Plot,
-                    poster: data.Poster,
-                    isLoading: false
+                    isLoading: false,
+                    movieList: movieList
+
                 });
             })
+
             .catch(err => {
             });
     }
@@ -48,8 +50,7 @@ class MovieReturned extends React.Component {
     handleSubmit = (e) => {
 
         e.preventDefault();
-        if (this.state.title !== this.state.input)
-            this.fetchSubmit();
+        this.fetchSubmit();
     }
 
     handleChange = (e) => {
@@ -58,9 +59,21 @@ class MovieReturned extends React.Component {
         })
     }
 
+    renderCards = () => {
+        const { movieList } = this.state;
+        return movieList.map((item, index) =>
+            <CardItem
+                key={index}
+                title={item.title}
+                poster={item.poster}
+                year={item.year}
+            />
+        );
+    }
+
     render() {
 
-        const { title, desc, year, poster, isLoading } = this.state
+        const { isLoading } = this.state
 
         return (
             <div>
@@ -81,16 +94,7 @@ class MovieReturned extends React.Component {
                     </div> :
                     <div>
                         <br />
-                        <Card
-                            title={title}
-                            style={{ width: 300 }}
-                            className="well"
-                            cover={<img src={poster} />}
-                        >
-                            <p>{desc}</p>
-                            <p>{year}</p>
-                        </Card>
-                        <br />
+                        {this.renderCards()}
                     </div>
                 }
             </div>
@@ -99,3 +103,12 @@ class MovieReturned extends React.Component {
 }
 
 export default MovieReturned;
+
+
+/* Did this for the styling of renderCards() render :
+
+style={{ display: "flex", flexDirection: "row"}}
+
+Succesfully displayed cards side by side, but sizes didn't match & looked funny so didn't use it
+
+*/
