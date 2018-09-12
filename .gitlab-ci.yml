@@ -15,7 +15,7 @@ test:
 pages:
   stage: deploy
   script:
-    - CI=true npm run build
+    - CI=false npm run build
     - rm -rf public
     - mv build public
   tags:
