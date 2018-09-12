@@ -4,10 +4,6 @@ cache:
   paths:
     - node_modules/
 
-job:
-  tags:
-    - shared
-
 before_script:
   - npm install
 
@@ -22,6 +18,8 @@ pages:
     - CI=true npm run build
     - rm -rf public
     - mv build public
+  tags:
+    - shared
   artifacts:
     paths:
       - public # GitLab pages serve from a 'public' directory
