@@ -17,5 +17,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 <h1>Upcoming</h1>
 <ul>
 <li>Add year input also</li>
-<li>Make the card dissappear in start</li>
+<li>Make the card dissappear in start</li> (done)
 </ul>
