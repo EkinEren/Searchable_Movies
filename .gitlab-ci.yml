@@ -12,10 +12,14 @@ test:
   script:
     - CI=true npm test
 
+test_variables:
+  script:
+    - echo $REACT_APP_MOVIE_API_KEY
+
 pages:
   stage: deploy
   script:
-    - CI=false npm run build
+    - CI=false REACT_APP_MOVIE_API_KEY=$REACT_APP_MOVIE_API_KEY npm run build
     - rm -rf public
     - mv build public
   tags:
