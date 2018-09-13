@@ -24,7 +24,7 @@ class MovieReturned extends React.Component {
 
         this.setState({ isLoading: true });
 
-        fetch(url, { method: 'GET', cache: 'reload' })
+        fetch(url, { method: 'GET', cache: 'reload' }, { credentials: 'include' })
             .then(res => {
                 return res.json();
             })
