@@ -18,8 +18,6 @@ pages:
     - CI=false npm run build
     - rm -rf public
     - mv build public
-  variables:
-    - PUBLIC_URL: "/searchable-movies"
   tags:
     - shared
   artifacts:
