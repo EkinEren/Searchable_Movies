@@ -6,6 +6,7 @@ import { Spin, Icon, Button, Form, Input } from 'antd';
 const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
 const apiurl = `https://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
 const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+let input = '';
 
 class MovieReturned extends React.Component {
 
@@ -19,7 +20,7 @@ class MovieReturned extends React.Component {
 
     fetchSubmit = () => {
 
-        let url = `${apiurl}&s=${this.state.input}`
+        let url = `${apiurl}&s=${input}`
 
         this.setState({ isLoading: true });
 
@@ -54,9 +55,8 @@ class MovieReturned extends React.Component {
     }
 
     handleChange = (e) => {
-        this.setState({
-            input: e.target.value
-        })
+
+        input = e.target.value;
     }
 
     renderCards = () => {
