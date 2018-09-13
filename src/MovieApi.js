@@ -4,7 +4,7 @@ import CardItem from './CardItem.js';
 import { Spin, Icon, Button, Form, Input } from 'antd';
 
 const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
-const apiurl = `http://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
+const apiurl = `https://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
 const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class MovieReturned extends React.Component {
