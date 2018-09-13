@@ -7,6 +7,7 @@ const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
 const apiurl = `https://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
 const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 let input = '';
+const accessToken = NZioPtFcVyoKtetW1 - sT;
 
 class MovieReturned extends React.Component {
 
@@ -25,7 +26,7 @@ class MovieReturned extends React.Component {
         this.setState({ isLoading: true });
 
         fetch(url, { method: 'GET', cache: 'reload' }, {
-            headers: { Accept: 'application/json' },
+            headers: { Accept: 'application/json', 'Authorization': 'Bearer ' + accessToken },
             credentials: 'same-origin'
         })
             .then(res => {
