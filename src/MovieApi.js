@@ -7,6 +7,7 @@ const APIKEY = process.env.REACT_APP_MOVIE_API_KEY;
 const apiurl = `https://www.omdbapi.com/?apikey=${APIKEY}&r=json&plot=short`;
 const antLoadingIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 let input = '';
+const message = "Sorry, we couldn't find any movies with the title you were looking for.";
 
 class MovieReturned extends React.Component {
 
@@ -26,13 +27,14 @@ class MovieReturned extends React.Component {
 
         fetch(url, { method: 'GET', cache: 'reload' }, {
             headers: { Accept: 'application/json' },
-            credentials: 'same-origin'
+            credentials: 'same-origin',
+            timeout: 8500
         })
             .then(res => {
                 return res.json();
             })
             .then(data => {
-                const movieList = data.Search.map((movie, i, arr) => {
+                const movieList = data.Search.map((movie) => {
 
                     return {
                         title: movie.Title,
@@ -48,6 +50,11 @@ class MovieReturned extends React.Component {
             })
 
             .catch(err => {
+                console.log(err);
+                this.setState({
+                    isLoading: false,
+                    movieList: message
+                })
             });
     }
 
@@ -76,7 +83,7 @@ class MovieReturned extends React.Component {
 
     render() {
 
-        const { isLoading } = this.state
+        const { movieList, isLoading } = this.state
 
         return (
             <div>
@@ -95,10 +102,12 @@ class MovieReturned extends React.Component {
                         <Spin indicator={antLoadingIcon} />
                         <h2>Loading...</h2>
                     </div> :
-                    <div>
-                        <br />
-                        {this.renderCards()}
-                    </div>
+                    movieList === message ?
+                        <div> <br /> <h3>{message}</h3>  <br /> </div> :
+                        <div>
+                            <br />
+                            {this.renderCards()}
+                        </div>
                 }
             </div>
         );
